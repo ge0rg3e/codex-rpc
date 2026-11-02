@@ -1,0 +1,13 @@
+node_modules/
+.svelte-kit/
+dist/
+bin/
+frontend/bindings/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.qa/
+*.syso
+zz_build_config_private.go

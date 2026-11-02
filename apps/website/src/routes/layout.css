@@ -1,0 +1,22 @@
+﻿@import 'tailwindcss';
+
+@theme {
+ --font-sans: 'Geist Variable', 'Segoe UI', sans-serif;
+ --color-canvas: #171717;
+ --color-ink: #f1f0f5;
+ --color-muted: #a9a5ba;
+ --color-line: #343434;
+ --color-accent: #c4b5fd;
+ --color-panel: #202020;
+ --color-panel-raised: #292929;
+ --color-accent-dark: #383142;
+}
+
+@layer base {
+ html { @apply scroll-smooth motion-reduce:scroll-auto; }
+ body { @apply m-0 bg-canvas font-sans text-[15px] leading-[1.55] text-ink scheme-dark [font-synthesis:none]; }
+ button { @apply cursor-pointer; }
+ button:disabled { @apply cursor-wait opacity-50; }
+ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible { @apply outline-2 outline-accent outline-offset-4; }
+ ::selection { @apply bg-accent-dark text-white; }
+}
