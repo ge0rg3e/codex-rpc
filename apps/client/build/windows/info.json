@@ -1,0 +1,15 @@
+{
+  "fixed": {
+    "file_version": "0.1.0"
+  },
+  "info": {
+    "0409": {
+      "ProductVersion": "0.1.0",
+      "CompanyName": "codex-rpc",
+      "FileDescription": "A quiet tray companion for Codex",
+      "LegalCopyright": "Copyright 2026 codex-rpc contributors",
+      "ProductName": "codex-rpc",
+      "Comments": "Independent community project"
+    }
+  }
+}

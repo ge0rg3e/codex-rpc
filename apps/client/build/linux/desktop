@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=codex-rpc
+Comment=A quiet tray companion for Codex
+Exec=codex-rpc
+Terminal=false
+Type=Application
+Icon=codex-rpc
+Categories=Utility;
+StartupWMClass=codex-rpc
+
+ 

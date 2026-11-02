@@ -1,0 +1,19 @@
+{
+  "cellHeight": 208,
+  "cellWidth": 192,
+  "columns": 8,
+  "discordImageSize": 512,
+  "discordStates": {
+    "coding": "coding-00",
+    "editing": "coding-01",
+    "error": "error-02",
+    "idle": "idle-00",
+    "running": "walk-right-02",
+    "stopped": "idle-01",
+    "success": "success-01",
+    "thinking": "thinking-00",
+    "waiting": "thinking-01"
+  },
+  "rows": 11,
+  "source": "codex-spritesheet-v6.922b99db4b.png"
+}

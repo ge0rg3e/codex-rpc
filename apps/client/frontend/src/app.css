@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist Variable", "Segoe UI", sans-serif;
+  --color-canvas: #171717;
+  --color-ink: #ececec;
+  --color-muted: #a3a3a3;
+  --color-line: #2d2d2d;
+  --color-accent: #d5e0e5;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth motion-reduce:scroll-auto;
+  }
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  body {
+    @apply m-0 bg-canvas font-sans text-ink scheme-dark [font-synthesis:none];
+  }
+  button {
+    @apply cursor-pointer;
+  }
+  button:disabled {
+    @apply cursor-wait opacity-50;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  summary:focus-visible {
+    @apply outline-2 outline-accent outline-offset-4;
+  }
+  ::selection {
+    @apply bg-[#3b444a] text-white;
+  }
+}
+
+main.flex.min-h-dvh {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+main.flex.min-h-dvh > section:first-of-type {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+main.flex.min-h-dvh > section:nth-of-type(2) {
+  padding-block: 1rem;
+}
+
+main.flex.min-h-dvh > section:nth-of-type(3) {
+  padding-block: 0.875rem 0.5rem;
+}
+
+html,
+* {
+  scrollbar-color: #414141 transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid #171717;
+  border-radius: 8px;
+  background: #414141;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@layer base {
+  body {
+    @apply text-xs;
+  }
+}
