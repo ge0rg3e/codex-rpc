@@ -6,7 +6,7 @@
 name: "codex-rpc"
 arch: ${GOARCH}
 platform: "linux"
-version: "0.1.0"
+version: "0.0.2"
 section: "default"
 priority: "extra"
 maintainer: "codex-rpc contributors"

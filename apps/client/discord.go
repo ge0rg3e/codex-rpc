@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -106,7 +107,7 @@ func (d *Discord) Update(id string, active bool, s Session, login string, websit
 	}
 	activity := discordActivity(s, login, site)
 	encoded, _ := json.Marshal(activity)
-	// Avoid repeated writes and rapid sprite cycling. Always send a reconnect's first state.
+	// Discord plays the artwork itself, so only send changed activity payloads.
 	if d.lastActivity == string(encoded) || (!d.lastSent.IsZero() && time.Since(d.lastSent) < 15*time.Second) {
 		return nil
 	}
@@ -129,7 +130,7 @@ func discordActivityAt(s Session, login, website string, now time.Time) map[stri
 		state = "thinking"
 	}
 	label := activityLabel(state)
-	image := "codex-" + state
+	image := discordImage(state, website)
 	details := label
 	if s.Project != "" {
 		details += " in " + s.Project
@@ -181,6 +182,27 @@ func discordActivityAt(s Session, login, website string, now time.Time) map[stri
 	}
 	activity["buttons"] = []any{map[string]string{"label": "View on GitHub", "url": githubURL}}
 	return activity
+}
+
+func discordImage(state, website string) string {
+	switch state {
+	case "coding", "editing", "error", "idle", "running", "stopped", "success", "thinking", "waiting":
+	default:
+		state = "idle"
+	}
+	key := "codex-" + state
+	origin, err := url.Parse(website)
+	if err != nil || origin.Scheme != "https" || validateWebsite(website) != nil {
+		return key
+	}
+	host := strings.ToLower(strings.TrimSuffix(origin.Hostname(), "."))
+	if host == "localhost" || strings.HasSuffix(host, ".localhost") {
+		return key
+	}
+	if ip := net.ParseIP(host); ip != nil && (ip.IsLoopback() || ip.IsPrivate() || !ip.IsGlobalUnicast()) {
+		return key
+	}
+	return strings.TrimRight(website, "/") + "/sprites/codex/" + key + ".gif"
 }
 
 // Discord caps text fields at 128 bytes. Keep UTF-8 intact and strip line breaks.

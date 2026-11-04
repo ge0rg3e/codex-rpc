@@ -6,7 +6,7 @@ vars:
   APP_NAME: "codex-rpc"
   BIN_DIR: "bin"
   PACKAGE_MANAGER: '{{.PACKAGE_MANAGER | default "npm"}}'
-  VERSION: '{{.VERSION | default "0.1.0"}}'
+  VERSION: '{{.VERSION | default "0.0.2"}}'
   DISCORD_CLIENT_ID: '{{.DISCORD_CLIENT_ID | default ""}}'
   CODEX_RPC_WEBSITE: '{{.CODEX_RPC_WEBSITE | default ""}}'
   VITE_PORT: "{{.WAILS_VITE_PORT | default 9245}}"

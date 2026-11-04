@@ -26,7 +26,7 @@ var appIcon []byte
 var trayIcon []byte
 
 // currentVersion is set from the release tag by the packaging tasks.
-var currentVersion = "0.1.0"
+var currentVersion = "0.0.2"
 
 //go:embed updater.key.pub
 var updaterPublicKey []byte

@@ -83,9 +83,10 @@
 			>
 		</div>
 		<div class="flex items-center gap-[14px] [&_strong]:text-[15px] [&_strong]:font-[550] [&_p]:my-1 [&_p]:text-[11px] [&_p]:leading-normal [&_p]:text-[#ececec] max-[800px]:gap-[11px]">
-			<div class="relative size-16 shrink-0 [&>img:first-child]:size-full [&>img:first-child]:rounded-xl max-[800px]:size-[52px] max-[600px]:size-[60px]">
-				<img src={`/sprites/codex/codex-${pose}.png`} alt={`Codex: ${label}`} title={`Codex · ${label} · gpt-6.1-sol · 12.8M lifetime tokens`} width="64" height="64" />
-			</div>
+			<picture class="size-16 shrink-0 max-[800px]:size-[52px] max-[600px]:size-[60px]">
+				<source media="(prefers-reduced-motion: no-preference)" type="image/gif" srcset={`/sprites/codex/codex-${pose}.gif`} />
+				<img class="size-full rounded-xl" src="/logo.png" alt={`Codex: ${label}`} title={`Codex · ${label} · gpt-6.1-sol · 12.8M lifetime tokens`} width="64" height="64" />
+			</picture>
 			<div class="min-w-0 min-h-[100px] flex-1 content-center">
 				<strong>codex-rpc</strong>
 				<p>{label} in codex-rpc</p>
