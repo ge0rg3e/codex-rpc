@@ -8,7 +8,7 @@ info:
   companyName: "codex-rpc"
   productName: "codex-rpc"
   productIdentifier: "dev.codex-rpc.client"
-  description: "A quiet tray companion for Codex"
+  description: "codex-rpc"
   copyright: ""
   comments: "Independent community project"
   version: "0.0.3" # The application version

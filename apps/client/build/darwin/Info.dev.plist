@@ -4,9 +4,11 @@
         <key>CFBundlePackageType</key>
             <string>APPL</string>
         <key>CFBundleName</key>
-            <string>My Product</string>
+            <string>codex-rpc</string>
+        <key>CFBundleDisplayName</key>
+            <string>codex-rpc</string>
         <key>CFBundleExecutable</key>
-            <string>codex-rpc.exe</string>
+            <string>codex-rpc</string>
         <key>CFBundleIdentifier</key>
             <string>com.codex-rpc.codexrpc</string>
         <key>CFBundleVersion</key>

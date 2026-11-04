@@ -47,6 +47,7 @@ func main() {
 		Assets:      application.AssetOptions{Handler: application.AssetFileServerFS(assets)},
 		Windows:     application.WindowsOptions{WebviewUserDataPath: filepath.Dir(service.path)},
 		Mac:         application.MacOptions{ApplicationShouldTerminateAfterLastWindowClosed: false},
+		Linux:       application.LinuxOptions{ProgramName: "codex-rpc"},
 	})
 	nativeLinux := runtime.GOOS == "linux" && os.Getenv("APPIMAGE") == ""
 	updatesEnabled := true

@@ -5,6 +5,8 @@
             <string>APPL</string>
         <key>CFBundleName</key>
             <string>codex-rpc</string>
+        <key>CFBundleDisplayName</key>
+            <string>codex-rpc</string>
         <key>CFBundleExecutable</key>
             <string>codex-rpc</string>
         <key>CFBundleIdentifier</key>
