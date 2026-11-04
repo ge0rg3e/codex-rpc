@@ -39,19 +39,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dataDir := filepath.Dir(service.path)
-	if runtime.GOOS == "windows" {
-		if err := migrateWindowsWebview(dataDir); err != nil {
-			log.Printf("migrate WebView2 data: %v", err)
-		}
-	}
 	app := application.New(application.Options{
 		Name:        "codex-rpc",
 		Icon:        appIcon,
 		Description: "A quiet tray companion for Codex",
 		Services:    []application.Service{application.NewService(service)},
 		Assets:      application.AssetOptions{Handler: application.AssetFileServerFS(assets)},
-		Windows:     application.WindowsOptions{WebviewUserDataPath: dataDir},
+		Windows:     application.WindowsOptions{WebviewUserDataPath: filepath.Dir(service.path)},
 		Mac:         application.MacOptions{ApplicationShouldTerminateAfterLastWindowClosed: false},
 	})
 	nativeLinux := runtime.GOOS == "linux" && os.Getenv("APPIMAGE") == ""
@@ -121,36 +115,6 @@ func main() {
 	}
 	close(service.stop)
 	<-service.done
-}
-
-func migrateWindowsWebview(dataDir string) error {
-	legacyDir := filepath.Join(filepath.Dir(dataDir), "codex-rpc.exe")
-	legacyProfile := filepath.Join(legacyDir, "EBWebView")
-	info, err := os.Lstat(legacyProfile)
-	if os.IsNotExist(err) {
-		return nil
-	}
-	if err != nil {
-		return err
-	}
-	if !info.IsDir() {
-		return nil
-	}
-	profile := filepath.Join(dataDir, "EBWebView")
-	if _, err := os.Lstat(profile); err == nil {
-		return nil
-	} else if !os.IsNotExist(err) {
-		return err
-	}
-	if err := os.MkdirAll(dataDir, 0700); err != nil {
-		return err
-	}
-	if err := os.Rename(legacyProfile, profile); err != nil && !os.IsNotExist(err) {
-		return err
-	}
-	// Remove the old directory only if the move left it empty.
-	_ = os.Remove(legacyDir)
-	return nil
 }
 
 func checkForUpdate(app *application.App) {
