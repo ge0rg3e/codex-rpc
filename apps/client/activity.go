@@ -56,3 +56,28 @@ func activityAt(s Session, now time.Time) (string, bool) {
 	}
 	return state, true
 }
+
+func liveCodexPresence(sessions []Session, now, cli, desktop, backend time.Time, windowOpen bool) (Session, string, bool) {
+	var latest Session
+	activity := "idle"
+	for _, session := range sessions {
+		if session.Internal || session.Archived || !session.Last.After(latest.Last) {
+			continue
+		}
+		state, visible := activityAt(session, now)
+		if session.Source == "Codex desktop" {
+			running := !backend.IsZero() && !session.TurnStarted.IsZero() && !session.Last.Before(backend)
+			if running {
+				state, visible = session.Activity, true
+			} else {
+				visible = visible && windowOpen && !session.Last.Before(desktop)
+			}
+		} else {
+			visible = visible && !cli.IsZero() && !session.Last.Before(cli)
+		}
+		if visible {
+			latest, activity = session, state
+		}
+	}
+	return latest, activity, latest.ID != ""
+}

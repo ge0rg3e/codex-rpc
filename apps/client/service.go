@@ -284,12 +284,9 @@ func (s *PresenceService) refresh() {
 	defer s.work.Unlock()
 	sessions, scanErr := s.collector.Scan(s.home)
 	var total int64
-	var latest Session
+	latest, activity, visible := codexPresence(sessions, time.Now())
 	for _, session := range sessions {
 		total += session.Tokens
-		if !session.Internal && session.Last.After(latest.Last) {
-			latest = session
-		}
 	}
 	latest.LifetimeTokens = total
 	latest.LifetimeSessions = len(sessions)
@@ -297,7 +294,6 @@ func (s *PresenceService) refresh() {
 		latest.LifetimeTools += session.Tools
 		latest.LifetimePrompts += session.Prompts
 	}
-	activity, visible := activityAt(latest, time.Now())
 	latest.Activity = activity
 	active := visible && activity != "idle" && activity != "success" && activity != "error" && activity != "stopped"
 	s.mu.Lock()
@@ -313,6 +309,9 @@ func (s *PresenceService) refresh() {
 	}
 	cfg := s.config
 	s.mu.Unlock()
+	if !visible || !cfg.Enabled || cfg.DiscordID == "" {
+		_ = s.discord.Update("", false, Session{}, "")
+	}
 	if s.pending != "" {
 		if time.Now().After(s.pairExpires) {
 			s.pending = ""
@@ -377,16 +376,15 @@ func (s *PresenceService) refresh() {
 	if cfg.Enabled {
 		if cfg.DiscordID == "" {
 			status = "Discord presence is unavailable in this build"
-			_ = s.discord.Update("", false, Session{}, "")
-		} else if err := s.discord.Update(cfg.DiscordID, visible, latest, login, cfg.Website); err != nil {
-			status = err.Error()
 		} else if visible {
-			status = "Discord · " + activityLabel(activity)
+			if err := s.discord.Update(cfg.DiscordID, true, latest, login, cfg.Website); err != nil {
+				status = err.Error()
+			} else {
+				status = "Discord · " + activityLabel(activity)
+			}
 		} else {
 			status = "Waiting for a Codex session"
 		}
-	} else {
-		_ = s.discord.Update("", false, Session{}, "")
 	}
 	s.mu.Lock()
 	s.state.Presence = status

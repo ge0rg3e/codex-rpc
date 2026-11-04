@@ -22,7 +22,7 @@ Unicode true
 ## !define INFO_PROJECTNAME    "my-project" # Default "codex-rpc"
 ## !define INFO_COMPANYNAME    "My Company" # Default "My Company"
 ## !define INFO_PRODUCTNAME    "My Product Name" # Default "My Product"
-## !define INFO_PRODUCTVERSION "1.0.0"     # Default "0.0.2"
+## !define INFO_PRODUCTVERSION "1.0.0"     # Default "0.0.3"
 ## !define INFO_COPYRIGHT      "(c) Now, My Company" # Default "© 2026, My Company"
 ###
 ## !define PRODUCT_EXECUTABLE  "Application.exe"      # Default "${INFO_PROJECTNAME}.exe"
@@ -34,7 +34,7 @@ Unicode true
 !define INFO_PROJECTNAME "codex-rpc"
 !define INFO_COMPANYNAME "codex-rpc"
 !define INFO_PRODUCTNAME "codex-rpc"
-!define INFO_PRODUCTVERSION "0.0.2"
+!define INFO_PRODUCTVERSION "0.0.3"
 !define INFO_COPYRIGHT "Copyright 2026 codex-rpc contributors"
 
 ## Include the wails tools

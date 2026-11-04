@@ -17,7 +17,7 @@
         PackageDisplayName="My Product"
         PublisherName="CN=My Company"
         PublisherDisplayName="My Company"
-        Version="0.0.2.0"
+        Version="0.0.3.0"
         PackageDescription="A codex-rpc application">
         <Capabilities>
             <Capability Name="runFullTrust" />

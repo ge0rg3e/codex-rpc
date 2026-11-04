@@ -74,15 +74,15 @@ func (d *Discord) read() (map[string]any, error) {
 	return nil, fmt.Errorf("Discord did not reply")
 }
 func (d *Discord) Update(id string, active bool, s Session, login string, website ...string) error {
-	if id != d.applicationID {
-		d.close()
-	}
 	if !active {
 		if d.conn != nil {
 			_ = d.command(nil)
 			d.close()
 		}
 		return nil
+	}
+	if id != d.applicationID {
+		d.close()
 	}
 	if d.conn == nil {
 		conn, err := dialDiscord()

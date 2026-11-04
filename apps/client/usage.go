@@ -31,6 +31,8 @@ type Session struct {
 	Prompts          int       `json:"-"`
 	CurrentTool      string    `json:"-"`
 	Internal         bool      `json:"-"`
+	Archived         bool      `json:"-"`
+	TurnStarted      time.Time `json:"-"`
 	LifetimeTokens   int64     `json:"-"`
 	LifetimeSessions int       `json:"-"`
 	LifetimeTools    int       `json:"-"`
@@ -176,6 +178,9 @@ func parseSession(path string) (Session, error) {
 			}
 			switch row.Payload.Type {
 			case "task_started", "turn_started", "user_message":
+				if row.Payload.Type != "user_message" {
+					session.TurnStarted = row.Timestamp
+				}
 				clear(pending)
 				setActivity("thinking", row.Timestamp)
 			case "agent_reasoning", "agent_reasoning_raw_content", "agent_reasoning_section_break":
@@ -200,12 +205,17 @@ func parseSession(path string) (Session, error) {
 					setActivity(pendingActivity(pending), row.Timestamp)
 				}
 			case "task_complete", "turn_complete", "turn_completed":
+				session.TurnStarted = time.Time{}
 				clear(pending)
 				setActivity("success", row.Timestamp)
 			case "error", "turn_failed":
+				if row.Payload.Type == "turn_failed" {
+					session.TurnStarted = time.Time{}
+				}
 				clear(pending)
 				setActivity("error", row.Timestamp)
 			case "turn_aborted", "shutdown_complete":
+				session.TurnStarted = time.Time{}
 				clear(pending)
 				setActivity("stopped", row.Timestamp)
 			}
@@ -280,6 +290,7 @@ func (c *Collector) Scan(home string) ([]Session, error) {
 				c.cache[path] = cached
 			}
 			s := cached.session
+			s.Archived = folder == "archived_sessions"
 			if s.ID != "" {
 				old, exists := sessions[s.ID]
 				if !exists {
